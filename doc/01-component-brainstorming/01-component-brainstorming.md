@@ -191,68 +191,85 @@ will likely refine your design to make your implementation easier to use.
 - Component Design #1: NaturalNumber
 
   - **Description**:
-    - Inspaired by OSU component NaturalNumber, this design is for modeling a non-nagative integer. There are some basic operations in Kernel and 
+    - Inspaired by OSU component NaturalNumber, this design is for modeling a non-nagative integer. There are some basic operations in Kernel Interface and complex operations in Secondary Interface.
   - **Kernel Methods**:
-    - <!-- TODO: list kernel methods then delete this comment -->
+    - `void multiplyBy10(int k)`: multiplies `this` by 10 and adds `k`
+    - `int divideBy10()`: divides `this` by 10 and reports the remainder
+    - `boolean isZero()`: reports whether `this` is zero
   - **Secondary Methods**:
-    - <!-- TODO: list secondary methods then delete this comment -->
+    - `void add(NaturalNumber n)`: adds `n` to `this`
+    - `void subtract(NaturalNumber n)`: subtracts `n` from `this`
+    - `void multiply(NaturalNumber n)`: multiplies `this` by `n`
+    - `NaturalNumber divide(NaturalNumber n)`: divides `this` by `n`, returning
+      the remainder
   - **Additional Considerations** (_note_: "I don't know" is an acceptable
     answer for each of the following questions):
     - Would this component be mutable? Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - Yes. All OSU components are mutable
     - Would this component rely on any internal classes (e.g., `Map.Pair`)?
       Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - I don't know.
     - Would this component need any enums or constants (e.g.,
       `Program.Instruction`)? Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - Yes. NaturalNumber base on 10, represented by `RADIX`.
     - Can you implement your secondary methods using your kernel methods?
       Answer, explain, and give at least one example:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - Yes. The Kernel method `multiplyBy10` can be used for Secondary method `add`.
 
-- Component Design #2: <!-- TODO: give component a name then delete this comment -->
+- Component Design #2: `RecipeManager`<!-- TODO: give component a name then delete this comment -->
 
   - **Description**:
-    - <!-- TODO: describe your component then delete this comment -->
+    - Manages cooking recipes with kernel methods for core recipe data and secondary methods for scaling or combining recipes.
   - **Kernel Methods**:
-    - <!-- TODO: list kernel methods then delete this comment -->
+    - `void addIngredient(String ingredient, int quantity)`: Adds an ingredient and quantity.
+
+    - `void removeIngredient(String ingredient)`: Removes an ingredient.
+
+    - `boolean hasIngredient(String ingredient)`: Checks if an ingredient exists.
   - **Secondary Methods**:
-    - <!-- TODO: list secondary methods then delete this comment -->
+    - `void scaleRecipe(float factor)`: Scales all ingredient quantities by a factor.
+
+    - `void mergeRecipes(RecipeManager other)`: Combines two recipes.
+
+    - `int totalIngredients()`: Returns the number of unique ingredients.
   - **Additional Considerations** (_note_: "I don't know" is an acceptable
     answer for each of the following questions):
     - Would this component be mutable? Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - Yes, inherits from Standard
     - Would this component rely on any internal classes (e.g., `Map.Pair`)?
       Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - I don't know.
     - Would this component need any enums or constants (e.g.,
       `Program.Instruction`)? Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      -  Yes (e.g., DEFAULT_SERVING_SIZE).
     - Can you implement your secondary methods using your kernel methods?
       Answer, explain, and give at least one example:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - I don't know.
 
-- Component Design #3: <!-- TODO: give component a name then delete this comment -->
+- Component Design #3: `ScoreTracker`
   - **Description**:
-    - <!-- TODO: describe your component then delete this comment -->
+    - A component to track points and achievements in a game. The kernel focuses on basic score manipulation, while secondary methods handle achievements and milestones.
   - **Kernel Methods**:
-    - <!-- TODO: list kernel methods then delete this comment -->
+    - `void addPoints(int points)`: Adds points to the current score.
+    - `void resetScore()`: Resets the score to zero.
+    - `int getScore()`: Returns the current score.
   - **Secondary Methods**:
-    - <!-- TODO: list secondary methods then delete this comment -->
+    - `boolean unlockAchievement(String achievementId)`: Unlocks an achievement if the score meets a threshold.
+    - `int getHighScore()`: Returns the highest score ever recorded.
+    - `void applyMultiplier(float multiplier)`: Multiplies the current score by a factor.
   - **Additional Considerations** (_note_: "I don't know" is an acceptable
     answer for each of the following questions):
     - Would this component be mutable? Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - Yes (inherits from Standard)
     - Would this component rely on any internal classes (e.g., `Map.Pair`)?
       Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - No. Relies on primitives and strings.
     - Would this component need any enums or constants (e.g.,
       `Program.Instruction`)? Answer and explain:
-      - <!-- TODO: provide an argument then delete this comment -->
+      - Yes (e.g., MAX_SCORE to cap points).
     - Can you implement your secondary methods using your kernel methods?
       Answer, explain, and give at least one example:
-      - <!-- TODO: provide an argument then delete this comment -->
-
+      - `applyMultiplier` uses `getScore`, resets, then adds scaled points via `addPoints`.
 ## Post-Assignment
 
 The following sections detail everything that you should do once you've
