@@ -167,6 +167,7 @@ format, we can be more confident that your designs will be possible.
         If the digit overflows, we reset it to zero and recursively call
         `increment`.
 
+
 Keep in mind that the general idea when putting together these layered designs
 is to put the minimal implementation in the kernel. In this case, the kernel is
 only responsible for manipulating a digit at a time in the number. The secondary
@@ -188,75 +189,77 @@ will likely refine your design to make your implementation easier to use.
 
 > Please use this section to share your designs.
 
-- Component Design #1: NaturalNumber
+- Component Design #1: `FlexibleNumber`
 
   - **Description**:
-    - Inspaired by OSU component NaturalNumber, this design is for modeling a non-nagative integer. There are some basic operations in Kernel Interface and complex operations in Secondary Interface.
+    - Models a non-negative integer with a variable base (e.g., binary, hexadecimal). Kernel handles base-specific operations, while secondary methods provide arithmetic across different bases.
   - **Kernel Methods**:
-    - `void multiplyBy10(int k)`: multiplies `this` by 10 and adds `k`
-    - `int divideBy10()`: divides `this` by 10 and reports the remainder
+    - `void multiplyByBase(int digit)`: Multiplies the current value by the component's base and adds `digit` (0 ≤ digit < base).
+    - `int divideByBase()`: Divides the current value by the component's base. Returns the remainder and updates the value to the quotient.
     - `boolean isZero()`: reports whether `this` is zero
   - **Secondary Methods**:
-    - `void add(NaturalNumber n)`: adds `n` to `this`
-    - `void subtract(NaturalNumber n)`: subtracts `n` from `this`
-    - `void multiply(NaturalNumber n)`: multiplies `this` by `n`
-    - `NaturalNumber divide(NaturalNumber n)`: divides `this` by `n`, returning
-      the remainder
+    - `void setBase(int newBase)`: Converts the component's value to the newBase and updates `this.base`.
+    - `void add(FlexibleNumber n)`: Adds n to this, aligning bases if necessary.
+    - `void subtract(FlexibleNumber n)`: Subtracts n from this, ensuring `this.value` ≥ n.value. Throws an exception if invalid.
   - **Additional Considerations** (_note_: "I don't know" is an acceptable
     answer for each of the following questions):
     - Would this component be mutable? Answer and explain:
-      - Yes. All OSU components are mutable
+      - Yes. Inherits from Standard, which requires mutability for methods like transferFrom and clear.
     - Would this component rely on any internal classes (e.g., `Map.Pair`)?
       Answer and explain:
-      - I don't know.
-    - Would this component need any enums or constants (e.g.,
-      `Program.Instruction`)? Answer and explain:
-      - Yes. NaturalNumber base on 10, represented by `RADIX`.
+      - No. All methods work with integers or other NaturalNumbers.
+    - Would this component need any enums or constants (e.g.,`Program.Instruction`)? Answer and explain:
+      - Yes. Requires constants like `DEFAULT_BASE` (e.g., base 10) and validation for valid base ranges (e.g., MIN_BASE=2, MAX_BASE=36).
     - Can you implement your secondary methods using your kernel methods?
       Answer, explain, and give at least one example:
-      - Yes. The Kernel method `multiplyBy10` can be used for Secondary method `add`.
+      - Yes. `setBase` uses `multiplyByBase` and `divideByBase` to rebuild the value in the new base.
+      `add/subtract` use kernel methods for digit manipulation, ensuring base consistency.
 
-- Component Design #2: `RecipeManager`<!-- TODO: give component a name then delete this comment -->
+- Component Design #2: `RecipeManager`
 
   - **Description**:
-    - Manages cooking recipes with kernel methods for core recipe data and secondary methods for scaling or combining recipes.
+    - Manages recipes with precise ingredient tracking (name, unit, quantity). Kernel methods handle core operations while secondary methods enable scaling, merging, and analysis.
   - **Kernel Methods**:
-    - `void addIngredient(String ingredient, int quantity)`: Adds an ingredient and quantity.
-
-    - `void removeIngredient(String ingredient)`: Removes an ingredient.
-
-    - `boolean hasIngredient(String ingredient)`: Checks if an ingredient exists.
+    - `void addIngredient(String ingredient, String unit, int quantity)`: Adds an ingredient with its unit and quantity.
+    - `void removeIngredient(String ingredient, String unit)`: Removes an ingredient-unit entry.
+    - `boolean hasIngredient(String ingredient, String unit)`: Checks if an ingredient-unit exists.
+    - `int getQuantity(String ingredient, String unit)`: Returns the quantity for the specified ingredient-unit.
+    - `Set<Pair<String, String>> getIngredientUnits()`: Returns all ingredient-unit pairs (e.g., ("flour", "grams")).
   - **Secondary Methods**:
     - `void scaleRecipe(float factor)`: Scales all ingredient quantities by a factor.
-
-    - `void mergeRecipes(RecipeManager other)`: Combines two recipes.
-
-    - `int totalIngredients()`: Returns the number of unique ingredients.
+    - `void mergeRecipes(RecipeManager other)`: Merges another recipe into this one (combining quantities for matching ingredient-units).
+    - `int totalUniqueIngredients()`: Returns the count of unique ingredient-unit pairs.
   - **Additional Considerations** (_note_: "I don't know" is an acceptable
     answer for each of the following questions):
     - Would this component be mutable? Answer and explain:
       - Yes, inherits from Standard
     - Would this component rely on any internal classes (e.g., `Map.Pair`)?
       Answer and explain:
-      - I don't know.
+      -Yes. Uses `Pair<String, String>` for ingredient-unit keys.
     - Would this component need any enums or constants (e.g.,
       `Program.Instruction`)? Answer and explain:
-      -  Yes (e.g., DEFAULT_SERVING_SIZE).
+      - Constants like DEFAULT_UNIT = "units" may be used.
     - Can you implement your secondary methods using your kernel methods?
       Answer, explain, and give at least one example:
-      - I don't know.
+      - `scaleRecipe` uses `getIngredientUnits()` to iterate through each pair, retrieves the quantity via getQuantity, removes the entry, then adds it back with the scaled value using addIngredient.
 
 - Component Design #3: `ScoreTracker`
   - **Description**:
-    - A component to track points and achievements in a game. The kernel focuses on basic score manipulation, while secondary methods handle achievements and milestones.
+    - Tracks current and high scores in a game. Kernel methods handle score manipulation, while secondary methods manage achievements and multipliers.
   - **Kernel Methods**:
-    - `void addPoints(int points)`: Adds points to the current score.
-    - `void resetScore()`: Resets the score to zero.
+    - `void addPoints(int points)`: Adds points to the current score and updates the high score if exceeded.
+
+    - `void resetCurrentScore()`: Resets the current score to zero (leaves high score unchanged).
+
     - `int getScore()`: Returns the current score.
+
+    - `int getHighScore()`: Returns the highest score recorded.
   - **Secondary Methods**:
-    - `boolean unlockAchievement(String achievementId)`: Unlocks an achievement if the score meets a threshold.
-    - `int getHighScore()`: Returns the highest score ever recorded.
-    - `void applyMultiplier(float multiplier)`: Multiplies the current score by a factor.
+    - `boolean unlockAchievement(String achievementId)`: Checks if the current/high score meets a predefined threshold.
+
+    - `void applyMultiplier(float multiplier)`: Applies a multiplier to the current score (uses getScore, resetCurrentScore, and addPoints).
+
+    - `void resetAll()`: Calls `clear()` (inherited from Standard) to reset both current and high scores.
   - **Additional Considerations** (_note_: "I don't know" is an acceptable
     answer for each of the following questions):
     - Would this component be mutable? Answer and explain:
@@ -266,7 +269,7 @@ will likely refine your design to make your implementation easier to use.
       - No. Relies on primitives and strings.
     - Would this component need any enums or constants (e.g.,
       `Program.Instruction`)? Answer and explain:
-      - Yes (e.g., MAX_SCORE to cap points).
+      - Constants like MAX_SCORE or achievement thresholds.
     - Can you implement your secondary methods using your kernel methods?
       Answer, explain, and give at least one example:
       - `applyMultiplier` uses `getScore`, resets, then adds scaled points via `addPoints`.
@@ -276,8 +279,6 @@ The following sections detail everything that you should do once you've
 completed the assignment.
 
 ### Changelog
-
-<!-- TODO: create CHANGELOG then delete this comment -->
 
 At the end of every assignment, you should update the
 [CHANGELOG.md](../../CHANGELOG.md) file found in the root of the project folder.
