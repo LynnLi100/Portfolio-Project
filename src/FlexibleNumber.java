@@ -90,6 +90,7 @@ public class FlexibleNumber {
         assert number >= 0 : "number is less than 0";
 
         this.base = base;
+        this.rep = "";
         int temp = number;
         while (temp > 0) {
             this.multiplyByBase(temp % base);
@@ -108,7 +109,7 @@ public class FlexibleNumber {
         assert base >= MIN_BASE : "base is less than 2";
         assert base <= MAX_BASE : "base is larger than 36";
         this.base = base;
-
+        this.rep = "";
         String temp = number.replaceAll("^0+", "");
         if (temp.isEmpty()) {
             this.rep = "";
@@ -191,5 +192,14 @@ public class FlexibleNumber {
             return "0";
         }
         return new StringBuilder(this.rep).reverse().toString();
+    }
+
+    public static void main(String[] args) {
+        FlexibleNumber n = new FlexibleNumber("100001", 2);
+        System.out.println(n);
+        n.multiplyByBase(1);
+        System.out.println(n);
+        System.out.println(n.divideByBase());
+        System.out.println(n);
     }
 }
