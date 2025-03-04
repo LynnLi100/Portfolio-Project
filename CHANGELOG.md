@@ -86,6 +86,7 @@ the following form: YYYY.0M.0D.
 [2024.01.07]: https://github.com/jrg94/portfolio-project/releases/tag/v2024.01.07
 
 ## [2025.02.18]
-
 ### Added
-- Designed a proof of concept for the flexiblenNumber component
+- Designed proof-of-concept for `FlexibleNumber` component supporting arbitrary bases (2-36)
+- Implemented core methods: `multiplyByBase`, `divideByBase`, base validation, and conversions
+- Added main method demonstrating digit manipulation and base transitions
