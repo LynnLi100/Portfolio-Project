@@ -94,3 +94,8 @@ the following form: YYYY.0M.0D.
 ## [2025.03.04]
 ### Added
 - Designed kernel and enhanced interfaces for `FlexibleNumber` component
+
+
+## [2025.03.18]
+### Added
+- Designed `FlexibleNumberSecondary` and `FlexibleNumber1L` for `FlexibleNumber` component

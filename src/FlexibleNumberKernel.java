@@ -35,7 +35,16 @@ public interface FlexibleNumberKernel {
      * @return Current base value
      * @ensures MIN_BASE ≤ result ≤ MAX_BASE
      */
-    int getBase();
+    int base();
+
+    /**
+     * Converts to new base while preserving value.
+     *
+     * @param newBase Target base (2-36)
+     * @requires MIN_BASE ≤ newBase ≤ MAX_BASE
+     * @ensures this.value = #this.value ∧ this.base = newBase
+     */
+    void setBase(int newBase);
 
     /**
      * Checks for zero value.

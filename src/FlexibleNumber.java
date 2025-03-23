@@ -2,17 +2,10 @@
  * Enhanced interface for base-flexible numeric operations.
  */
 public interface FlexibleNumber extends FlexibleNumberKernel {
-    
+
     // Secondary Operations
 
-    /**
-     * Converts to new base while preserving value.
-     *
-     * @param newBase Target base (2-36)
-     * @requires MIN_BASE ≤ newBase ≤ MAX_BASE
-     * @ensures this.value = #this.value ∧ this.base = newBase
-     */
-    void setBase(int newBase);
+    
 
     /**
      * Adds another number to this value.
