@@ -80,7 +80,7 @@ public class FlexibleNumber1L extends FlexibleNumberSecondary{
      *          base
      */
     public FlexibleNumber1L(int number, int base) {
-        assert base >= this.MIN_BASE : "base is less than 2";
+        assert base >= MIN_BASE : "base is less than 2";
         assert base <= MAX_BASE : "base is larger than 36";
         assert number >= 0 : "number is less than 0";
 
@@ -101,7 +101,7 @@ public class FlexibleNumber1L extends FlexibleNumberSecondary{
      * @param base
      */
     public FlexibleNumber1L(String number, int base) {
-        assert base >= this.MIN_BASE : "base is less than 2";
+        assert base >= MIN_BASE : "base is less than 2";
         assert base <= MAX_BASE : "base is larger than 36";
         this.base = base;
         this.rep = "";
@@ -233,13 +233,5 @@ public class FlexibleNumber1L extends FlexibleNumberSecondary{
         return result;
     }
 
-//
-    @Override
-    public String toString() {
-        if (this.isZero()) {
-            return "0";
-        }
-        return new StringBuilder(this.rep).reverse().toString();
-    }
 
 }

@@ -121,6 +121,9 @@ Below is further rationale/explanation for the rubric items above:
 > and interpreted (i.e., by correspondence).
 
 <!-- TODO: select a representation and explain why -->
+For the internal representation of a FlexibleNumber1L, I chose to use a String rep to store the digits of the number and an int base to track the base in which the number is represented.
+
+Storing digits as characters in a String allows for easy manipulation and conversion between bases from 2 to 36, since char can hold any digit or letter (e.g., '0' to '9', 'A' to 'Z') used in standard positional number systems up to base 36.
 
 > To start making your kernel implementation, make a branch off of main in your
 > new repo called something like `kernel-implementation`. There are many ways to
