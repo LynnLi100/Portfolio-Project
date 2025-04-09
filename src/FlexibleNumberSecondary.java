@@ -3,17 +3,6 @@ import components.stack.Stack1L;
 
 public abstract class FlexibleNumberSecondary implements FlexibleNumber {
 
-    /**
-     * Representation of {@code this.rep}.
-     */
-    private String rep;
-    /**
-     * Representation of {@code this.base}.
-     */
-    private int base;
-
-    
-
     @Override
     public void add(FlexibleNumber n) {
         if (n == null) {
@@ -179,15 +168,8 @@ public abstract class FlexibleNumberSecondary implements FlexibleNumber {
             return 0;
         }
     }
+    
 
-    @Override
-    public abstract int base();
-    @Override
-    public abstract int divideByBase();
-    @Override
-    public abstract void multiplyByBase(int k);
-    @Override
-    public abstract boolean isZero();
 }
 
 
